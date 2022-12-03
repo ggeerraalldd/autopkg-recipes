@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comment</key>
+	<string>Created with Recipe Robot v2.2.0 (https://github.com/homebysix/recipe-robot)</string>
+	<key>Description</key>
+	<string>Downloads the latest x86_64 version of OBS Studio and imports it into Munki.</string>
+	<key>Identifier</key>
+	<string>com.github.ggeerraalldd.munki.OBS</string>
+	<key>Input</key>
+	<dict>
+		<key>ARCH</key>
+		<string>x86_64</string>
+		<key>APP_FILENAME</key>
+		<string>OBS</string>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps/OBS</string>
+		<key>NAME</key>
+		<string>OBS</string>
+	    <key>STOPPROCESSINGIF_PREDICATE</key>
+        <string>download_changed == FALSE</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>development</string>
+			</array>
+			<key>category</key>
+			<string>Multimedia</string>
+			<key>description</key>
+			<string>Free and open source software for live streaming and screen recording</string>
+			<key>developer</key>
+			<string>Wizards of OBS LLC</string>
+			<key>display_name</key>
+			<string>OBS Studio</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>postinstall_script</key>
+			<string>#!/bin/sh
+# copy virtual camera plug-in to its needed location to avoid an admin
+# credentials prompt when starting the virtual camera for the first time
+/bin/cp -R /Applications/OBS.app/Contents/Resources/obs-mac-virtualcam.plugin /Library/CoreMediaIO/Plug-Ins/DAL/</string>
+			<key>postuninstall_script</key>
+			<string>#!/bin/sh
+# remove virtual camera plug-in
+/bin/rm -r /Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin</string>
+			<key>preinstall_script</key>
+			<string>#!/bin/sh
+# if not installed at login window, disable automatic update checks.
+currentUser=$(ls -la /dev/console | cut -d " " -f 4)
+
+if [[ $currentUser != "root" ]]
+then
+	sudo -u $currentUser /usr/bin/defaults write com.obsproject.obs-studio SUEnableAutomaticChecks -bool NO
+fi</string>
+			<key>supported_architectures</key>
+			<array>
+				<string>%ARCH%</string>
+			</array>
+			<key>unattended_install</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>ParentRecipe</key>
+	<string>com.github.ggeerraalldd.download.OBS</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+            <dict>
+               <key>predicate</key>
+               <string>%STOPPROCESSINGIF_PREDICATE%</string>
+            </dict>
+            <key>Processor</key>
+            <string>StopProcessingIf</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pathname%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+		</dict>
+	</array>
+</dict>
+</plist>
