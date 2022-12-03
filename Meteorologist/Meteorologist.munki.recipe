@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads Meteorologist and imports into Munki.</string>
+	<key>Identifier</key>
+	<string>com.github.ggeerraalldd.munki.Meteorologist</string>
+	<key>Input</key>
+	<dict>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps/%NAME%</string>
+		<key>MUNKI_CATEGORY</key>
+		<string>Utilities</string>
+		<key>NAME</key>
+		<string>Meteorologist</string>
+		<key>SOURCEFORGE_FILE_PATTERN</key>
+		<string>Meteorologist-[0-9_\.]*\.dmg</string>
+		<key>SOURCEFORGE_PROJECT_NAME</key>
+		<string>heat-meteo</string>
+		<key>APP_DESTINATION</key>
+		<string>/Applications</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+			<key>category</key>
+			<string>%MUNKI_CATEGORY%</string>
+			<key>description</key>
+			<string>Meteorologist is a free weather program for OS X.  It allows users total control over their weather viewing, including simultaneous interlaced weather reports from multiple weather servers, multiple weather locations, weather alerts and much more.</string>
+			<key>developer</key>
+			<string>Edward Danley</string>
+			<key>display_name</key>
+			<string>Meteorologist</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>unattended_install</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>com.github.jessepeterson.munki.GrandPerspective/SourceForgeURLProvider</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>filename</key>
+				<string>%NAME%.dmg</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>CodeSignatureVerifier</string>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key>
+				<string>%pathname%/Meteorologist.app</string>
+				<key>requirement</key>
+				<string>identifier "com.heat.Meteorologist" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "7WNRPT262U"</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pathname%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+				<key>additional_makepkginfo_options</key>
+				<array>
+					<string>--destinationpath</string>
+					<string>%APP_DESTINATION%</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+		</dict>
+	</array>
+</dict>
+</plist>
