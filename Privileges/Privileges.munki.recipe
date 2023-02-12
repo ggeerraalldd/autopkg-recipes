@@ -59,7 +59,7 @@ pkgutil --forget com.sap.privileges
         </dict>
     </dict>
     <key>ParentRecipe</key>
-    <string>com.github.rtrouton.pkg.privileges</string>
+    <string>com.github.ggeerraalldd.pkg.privileges</string>
     <key>Process</key>
     <array>
         <dict>
@@ -71,7 +71,7 @@ pkgutil --forget com.sap.privileges
                 <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
                 <key>installs_item_paths</key>
                 <array>
-                    <string>/Applications/Privileges.app</string>
+                    <string>/Applications/Utilities/Privileges.app</string>
                 </array>
             </dict>
         </dict>
@@ -85,7 +85,7 @@ pkgutil --forget com.sap.privileges
             <key>Arguments</key>
             <dict>
                 <key>info_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%/Applications/Privileges.app/Contents/Info.plist</string>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Applications/Utilities/Privileges.app/Contents/Info.plist</string>
             </dict>
         </dict>
         <dict>
