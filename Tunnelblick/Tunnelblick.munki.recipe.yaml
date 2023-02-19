@@ -1,0 +1,54 @@
+Description: Creates a package for latest version of Tunnelblick and imports into Munki.
+Identifier: com.github.ggeerraalldd.munki.Tunnelblick
+ParentRecipe: com.github.ggeerraalldd.pkg.Tunnelblick
+
+Input:
+  NAME: Tunnelblick
+  MUNKI_REPO_SUBDIR: apps/Tunnelblick
+  pkginfo:
+    blocking_applications:
+    - Tunnelblick
+    catalogs:
+    - development
+    category: Networking
+    description: Tunnelblick is a Mac app that lets you easily connect to OpenVPN.
+    developer: The Tunnelblick Project
+    display_name: Tunnelblick
+    name: "%NAME%"
+    requires:
+    - Tunnelblick-configs
+    unattended_install: true
+    uninstall_method: uninstall_script
+    uninstall_script: |
+      #!/bin/bash
+      /Applications/Tunnelblick.app/Contents/Resources/tunnelblick-uninstaller.sh -u Tunnelblick net.tunnelblick.tunnelblick /Applications/Tunnelblick.app
+    postuninstall_script: |
+      #!/bin/bash
+      pkgutil --forget com.sxsw.pkg.Tunnelblick
+
+Process:
+- Processor: MunkiInstallsItemsCreator
+  Arguments:
+    derive_minimum_os_version: true
+    faux_root: '%RECIPE_CACHE_DIR%/%NAME%'
+    installs_item_paths:
+    - /Applications/Tunnelblick.app
+    version_comparison_key: CFBundleVersion
+
+- Processor: MunkiPkginfoMerger
+
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      minimum_os_version: "10.10"
+      version: "%version%"
+
+- Processor: MunkiImporter
+  Arguments:
+    repo_subdirectory: "%MUNKI_REPO_SUBDIR%"
+    version_comparison_key: CFBundleVersion
+    
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%/'

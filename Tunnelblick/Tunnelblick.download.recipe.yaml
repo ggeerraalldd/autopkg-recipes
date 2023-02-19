@@ -1,0 +1,24 @@
+Description: Creates a package for latest version of Tunnelblick and imports into Munki.
+Identifier: com.github.ggeerraalldd.download.Tunnelblick
+MinimumVersion: "2.3"
+
+Input:
+  NAME: Tunnelblick
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: release/Tunnelblick_(?P<version>[\d\.]+[a-z]?)_build_(?P<build>[\d\.]+)\.dmg
+    url: https://tunnelblick.net/downloads.html
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%version%.dmg'
+    url: https://tunnelblick.net/release/Tunnelblick_%version%_build_%build%.dmg
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/Tunnelblick.app'
+    requirement: identifier "net.tunnelblick.tunnelblick" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Z2SG5H3HC8
