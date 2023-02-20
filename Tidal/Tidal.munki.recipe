@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Downloads Tidal disk image and imports into Munki.</string>
+	<string>Downloads Tidal disk image and imports into Munki.
+    Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.</string>
+    Set the DOWNLOAD_ARCH override to "x64" for munki to install for Intel, or "arm64" for Apple Silicon.</string>
 	<key>Identifier</key>
 	<string>com.github.ggeerraalldd.munki.Tidal</string>
 	<key>Input</key>

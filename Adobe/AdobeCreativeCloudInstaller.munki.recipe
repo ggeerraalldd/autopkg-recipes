@@ -4,8 +4,8 @@
 <dict>
     <key>Description</key>
     <string>Download the latest version of the Adobe Creative Cloud Intel Installer and imports it into Munki.
-    Set the ARCHITECTURE override to "osx10" to download the Intel or "macarm64" for Apple Silicon.
-    Set the ARCH override to "x86_64" for munki to install the Intel or "arm64" for Apple Silicon.</string>
+    Set the ARCHITECTURE override to "osx10" to download for Intel, or "macarm64" for Apple Silicon.
+    Set the ARCH override to "x86_64" for munki to install or Intel, or "arm64" for Apple Silicon.</string>
     <key>Identifier</key>
     <string>com.github.ggeerraalldd.munki.AdobeCreativeCloudInstaller</string>
     <key>Input</key>

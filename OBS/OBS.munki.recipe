@@ -5,7 +5,8 @@
 	<key>Comment</key>
 	<string>Created with Recipe Robot v2.2.0 (https://github.com/homebysix/recipe-robot)</string>
 	<key>Description</key>
-	<string>Downloads the latest x86_64 version of OBS Studio and imports it into Munki.</string>
+	<string>Downloads the latest x86_64 version of OBS Studio and imports it into Munki.
+    Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.</string>
 	<key>Identifier</key>
 	<string>com.github.ggeerraalldd.munki.OBS</string>
 	<key>Input</key>
@@ -24,7 +25,7 @@
 		<dict>
 			<key>catalogs</key>
 			<array>
-				<string>development</string>
+				<string>testing</string>
 			</array>
 			<key>category</key>
 			<string>Multimedia</string>
