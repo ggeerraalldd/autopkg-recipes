@@ -60,7 +60,7 @@ Process:
   Arguments:
     pkg_request:
       chown: []
-      id: com.sxsw.pkg.Tunnelblick
+      id: net.tunnelblick.tunnelblick.pkg
       options: purge_ds_store
       pkgname: "%NAME%-%version%"
       pkgroot: "%RECIPE_CACHE_DIR%/pkgroot"

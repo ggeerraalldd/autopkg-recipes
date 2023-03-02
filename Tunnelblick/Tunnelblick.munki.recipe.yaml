@@ -24,7 +24,7 @@ Input:
       /Applications/Tunnelblick.app/Contents/Resources/tunnelblick-uninstaller.sh -u Tunnelblick net.tunnelblick.tunnelblick /Applications/Tunnelblick.app
     postuninstall_script: |
       #!/bin/bash
-      pkgutil --forget com.sxsw.pkg.Tunnelblick
+      pkgutil --forget net.tunnelblick.tunnelblick.pkg
 
 Process:
 - Processor: MunkiInstallsItemsCreator
