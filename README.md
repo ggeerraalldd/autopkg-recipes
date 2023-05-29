@@ -9,6 +9,9 @@ http://github.com/autopkg/rtrouton-recipes.git
 	AdobeCreativeCloudInstaller.munki.recipe
 	Privileges.munki.recipe
 
+http://github.com/autopkg/grahamgilbert-recipes.git</string>
+	Outset4.munki.recipe
+
 http://github.com/autopkg/grahampugh-recipes.git
 	DCVViewer.download.recipe
 
