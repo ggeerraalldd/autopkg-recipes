@@ -8,13 +8,14 @@ Input:
 Process:
 - Processor: URLTextSearcher
   Arguments:
+    re_pattern: release/Tunnelblick_(?P<version>[\d\.]+[a-z]?)_build_(?P<build>[\d\.]+)\.dmg
     re_pattern: iprelease/Tunnelblick_(?P<version>[\d\.]+[a-z]?)_build_(?P<build>[\d\.]+)\.dmg
     url: https://tunnelblick.net/downloads.html
 
 - Processor: URLDownloader
   Arguments:
     filename: '%NAME%-%version%.dmg'
-    url: https://tunnelblick.net/release/Tunnelblick_%version%_build_%build%.dmg
+    url: https://tunnelblick.net/iprelease/Tunnelblick_%version%_build_%build%.dmg
 
 - Processor: EndOfCheckPhase
 
