@@ -1,0 +1,39 @@
+Description: Downloads the latest version of the DisplayLink Manager App.
+Identifier: com.github.ggeerraalldd.download.FileMakerProUpdates
+MinimumVersion: '2.3'
+
+Input:
+  NAME: FileMaker_Pro_Updates
+  MAJOR_VERSION: "20"
+  BASE_URL: https://www.claris.com
+  SEARCH_URL: resources/downloads/updaters/product-updaters.txt
+
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      re_pattern: (?P<dl_url>https://downloads\.claris\.com/UPDT/%MAJOR_VERSION%/fmp_updater_(?P<dl_version>\d{2}\.\d\.\d\.\d+)\.zip)
+      url: '%BASE_URL%/%SEARCH_URL%'
+
+  - Processor: URLDownloader
+    Arguments:
+      url: '%dl_url%'
+
+  - Processor: EndOfCheckPhase
+  
+  - Processor: Unarchiver
+    Arguments:
+      destination_path: '%RECIPE_CACHE_DIR%/unzipped'
+      purge_destination: true
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%RECIPE_CACHE_DIR%/unzipped/*pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/unzipped/FileMaker_Pro_Update.pkg'
+
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      expected_authority_names:
+        - 'Developer ID Installer: Claris International Inc. (J6K4T76U7W)'
+        - Developer ID Certification Authority
+        - Apple Root CA
+      input_path: '%RECIPE_CACHE_DIR%/unzipped/FileMaker_Pro_Update.pkg'
