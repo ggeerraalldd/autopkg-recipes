@@ -9,7 +9,7 @@ Input:
 Process:
 - Processor: URLTextSearcher
   Arguments:
-    re_pattern: "(https:.*64\.dmg)\">\n\s*macOS\s\(%ARCH%\)"
+    re_pattern: '(https:.*64\.dmg)\">\n\s*macOS\s\(%ARCH%\)'
     result_output_var_name: download_url
     url: '%BASE_URL%'
 
