@@ -1,0 +1,41 @@
+Description: Downloads the latest version of DCV Viewer.
+Identifier: com.github.ggeerraalldd.download.DCVViewer
+MinimumVersion: '2.3'
+
+Input:
+  NAME: nice-dcv-viewer
+  BASE_URL: https://download.nice-dcv.com
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: "(https:.*64\.dmg)\">\n\s*macOS\s\(%ARCH%\)"
+    result_output_var_name: download_url
+    url: '%BASE_URL%'
+
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: (202\d.\d.\d{4})
+    result_output_var_name: raw_version
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%ARCH%.dmg'
+    url: '%download_url%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: com.github.grahampugh.recipes.commonprocessors/StringReplacer
+  Arguments:
+    input_string: '%raw_version%'
+    replacement_string: .
+    string_to_replace: '-'
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/DCV Viewer.app'
+    requirement: identifier "com.nicesoftware.dcvviewer" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "94KV3E626L"
+
+- Processor: EndOfCheckPhase
+  Arguments:
+    version: '%output_string%'

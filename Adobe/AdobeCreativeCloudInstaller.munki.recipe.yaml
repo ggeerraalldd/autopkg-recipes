@@ -1,0 +1,48 @@
+Description: |
+  Download the latest version of the Adobe Creative Cloud Intel Installer and imports it into Munki.
+  Set the ARCHITECTURE override to "osx10" to download for Intel, or "macarm64" for Apple Silicon.
+  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.
+Identifier: com.github.ggeerraalldd.munki.AdobeCreativeCloudInstaller
+ParentRecipe: com.github.rtrouton.pkg.AdobeCreativeCloudInstaller
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Adobe Creative Cloud
+  ARCHITECTURE: osx10
+  ARCH: x86_64
+  VENDOR: Adobe
+  NAMEWITHOUTSPACES: CreativeCloudInstaller
+  MUNKI_CATEGORY: Creative Cloud
+  MUNKI_DEVELOPER: Adobe
+  MUNKI_REPO_SUBDIR: apps/Adobe/Creative Cloud
+  pkginfo:
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: "Adobe Creative Cloud gives you the world's best creative apps and services so you can make anything you can imagine, whereever you're inspired. "
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%NAME%'
+    name: '%NAME%'
+    supported_architectures:
+    - '%ARCH%'
+    unattended_install: true
+    uninstall_method: uninstall_script
+    uninstall_script: |
+      #!/bin/bash
+      
+      # Uninstall the Creative Cloud Desktop app
+      if [[ -f "/Applications/Utilities/Adobe Creative Cloud/Utils/Creative Cloud Uninstaller.app/Contents/MacOS/Creative Cloud Uninstaller" ]]; then
+        echo "Attempting to uninstall Creative Cloud Desktop"
+        "/Applications/Utilities/Adobe Creative Cloud/Utils/Creative Cloud Uninstaller.app/Contents/MacOS/Creative Cloud Uninstaller" -u
+      fi
+      
+      # Remove pkg receipts
+      
+      pkgutil --forget com.adobe.AdobeCreativeCloudInstaller.pkg
+      
+      exit 0
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%RECIPE_CACHE_DIR%/%VENDOR%%NAMEWITHOUTSPACES%-%version%.pkg'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

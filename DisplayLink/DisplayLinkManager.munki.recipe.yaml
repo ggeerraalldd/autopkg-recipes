@@ -1,0 +1,67 @@
+Description: Import DisplayLink Driver into munki.
+Identifier: com.github.ggeerraalldd.munki.DisplayLinkManager
+ParentRecipe: com.github.ggeerraalldd.download.DisplayLinkManager
+MinimumVersion: '2.3'
+
+Input:
+  NAME: DisplayLink Manager
+  MUNKI_REPO_SUBDIR: apps/DisplayLink
+  pkginfo:
+    catalogs:
+    - testing
+    category: Config Tools
+    description: |
+      DisplayLink Manager is a new way to enable your DisplayLink dock, adapter or monitor on macOS platforms. It's an application that combines our latest driver with features that streamline the setup of mutliple displays up to 4K.
+      
+      This software is required to connect ASUS portable monitors to your Mac."
+    developer: DisplayLink
+    display_name: DisplayLink Manager
+    minimum_os_version: '11.0'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+
+Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+    flat_pkg_path: '%pathname%'
+    purge_destination: true
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications'
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/DisplayLinkManagerApp.pkg/Payload'
+    purge_destination: true
+
+- Processor: MunkiInstallsItemsCreator
+  Arguments:
+    faux_root: '%RECIPE_CACHE_DIR%/%NAME%'
+    installs_item_paths:
+    - /Applications/DisplayLink Manager.app
+
+- Processor: MunkiPkginfoMerger
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications/DisplayLink Manager.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleShortVersionString: version
+      LSMinimumSystemVersion: min_os_version
+
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      minimum_os_version: '%min_os_version%'
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%'
+    - '%RECIPE_CACHE_DIR%/unpack'

@@ -1,0 +1,58 @@
+Description: Downloads the latest version of Outset 4 and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.Outset4
+ParentRecipe: com.github.ggeerraalldd.download.Outset4
+MinimumVersion: '2.3'
+
+Input:
+  NAME: outset
+  MUNKI_REPO_SUBDIR: config/%NAME%
+  pkginfo:
+    catalogs:
+    - testing
+    category: Utilities
+    description: Automatically process packages, profiles, and scripts during boot, login, or on demand.
+    developer: Mac Admins Open Source
+    display_name: Outset 4
+    minimum_os_version: '10.15'
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+    flat_pkg_path: '%pathname%'
+    purge_destination: true
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/usr/local/outset'
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/Outset-%version%.pkg/Payload'
+    purge_destination: true
+
+- Processor: MunkiInstallsItemsCreator
+  Arguments:
+    faux_root: '%RECIPE_CACHE_DIR%/Outset'
+    installs_item_paths:
+    - /usr/local/outset/Outset.app
+    purge_destination: true
+
+- Processor: MunkiPkginfoMerger
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/%NAME%/usr/local/outset/Outset.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleVersion: version
+      LSMinimumSystemVersion: min_os_version
+
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      minimum_os_version: '%min_os_version%'
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%RECIPE_CACHE_DIR%/downloads/Outset.pkg'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

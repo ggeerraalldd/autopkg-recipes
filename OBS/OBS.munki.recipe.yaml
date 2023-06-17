@@ -1,0 +1,52 @@
+Description: |
+  Downloads the latest x86_64 version of OBS Studio and imports it into Munki.
+  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon."
+Identifier: com.github.ggeerraalldd.munki.OBS
+ParentRecipe: com.github.ggeerraalldd.download.OBS
+MinimumVersion: '2.3'
+
+Input:
+  NAME: OBS
+  ARCH: x86_64
+  APP_FILENAME: OBS
+  MUNKI_REPO_SUBDIR: apps/OBS
+  STOPPROCESSINGIF_PREDICATE: download_changed == FALSE
+  pkginfo:
+    catalogs:
+    - testing
+    category: Multimedia
+    description: Free and open source software for live streaming and screen recording
+    developer: Wizards of OBS LLC
+    display_name: OBS Studio
+    name: '%NAME%'
+    postinstall_script: |
+      #!/bin/sh
+      # copy virtual camera plug-in to its needed location to avoid an admin
+      # credentials prompt when starting the virtual camera for the first time
+      /bin/cp -R /Applications/OBS.app/Contents/Resources/obs-mac-virtualcam.plugin /Library/CoreMediaIO/Plug-Ins/DAL/"
+    postuninstall_script: |
+      #!/bin/sh
+      # remove virtual camera plug-in
+      /bin/rm -r /Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin"
+    preinstall_script: |
+      #!/bin/sh
+      # if not installed at login window, disable automatic update checks.
+      currentUser=$(ls -la /dev/console | cut -d " " -f 4)
+      
+      if [[ $currentUser != "root" ]]
+      then
+          sudo -u $currentUser /usr/bin/defaults write com.obsproject.obs-studio SUEnableAutomaticChecks -bool NO
+      fi"
+    supported_architectures:
+    - '%ARCH%'
+    unattended_install: false
+
+Process:
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: '%STOPPROCESSINGIF_PREDICATE%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

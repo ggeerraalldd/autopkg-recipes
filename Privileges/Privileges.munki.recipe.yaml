@@ -1,0 +1,63 @@
+Description: Downloads the latest version of Privileges.app and imports it into Munki
+Identifier: com.github.ggeerraalldd.munki.privileges
+ParentRecipe: com.github.ggeerraalldd.pkg.privileges
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Privileges
+  DESCRIPTION: Privileges.app for macOS is designed to allow users to work as a standard user for day-to-day use, by providing a quick and easy way to get administrator rights when needed. When you do need admin rights, you can get them by clicking on the Privileges icon in your Dock.
+  DISPLAYNAME: Privileges
+  MUNKI_CATEGORY: Utilities
+  MUNKI_DEVELOPER: SAP
+  MUNKI_REPO_SUBDIR: ''
+  pkginfo:
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: '%DESCRIPTION%'
+    developer: '%MUNKI_DEVELOPER%'
+    display_name: '%DISPLAYNAME%'
+    minimum_os_version: '10.12'
+    name: '%NAME%'
+    unattended_install: true
+    unattended_uninstall: true
+    uninstall_method: uninstall_script
+    uninstall_script: |
+      #!/bin/bash
+      
+      if [[ -f "/Library/LaunchDaemons/corp.sap.privileges.helper.plist" ]]; then
+          launchctl unload "/Library/LaunchDaemons/corp.sap.privileges.helper.plist" 2>/dev/null
+          rm -rf "/Library/LaunchDaemons/corp.sap.privileges.helper.plist"
+      fi
+      
+      rm -rf "/Applications/Privileges.app"
+      rm -rf "/Library/PrivilegedHelperTools/corp.sap.privileges.helper"
+      pkgutil --forget com.sap.privileges
+
+Process:
+- Processor: MunkiInstallsItemsCreator
+  Arguments:
+    faux_root: '%RECIPE_CACHE_DIR%/%NAME%/'
+    installs_item_paths:
+    - /Applications/Utilities/Privileges.app
+
+- Processor: MunkiPkginfoMerger
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications/Utilities/Privileges.app/Contents/Info.plist'
+
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pkg_path%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%/'

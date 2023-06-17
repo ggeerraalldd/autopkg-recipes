@@ -1,0 +1,41 @@
+Description: Downloads the latest version of Microsoft Remote Desktop Beta.
+Identifier: com.github.ggeerraalldd.download.MicrosoftRemoteDesktopBeta
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Microsoft Remote Desktop Beta
+  SPARKLE_FEED_URL: https://api.appcenter.ms/v0.1/public/sparkle/apps/5e0c1442-89a5-1fca-2d3b-fa39ce7f2b06
+
+Process:
+- Processor: SparkleUpdateInfoProvider
+  Arguments:
+    appcast_url: '%SPARKLE_FEED_URL%'
+    urlencode_path_component: false
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%version%.zip'
+
+- Processor: EndOfCheckPhase
+
+- Processor: Unarchiver
+  Arguments:
+    archive_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%'
+    purge_destination: true
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/%NAME%/Microsoft Remote Desktop Beta.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleShortVersionString: major_version
+      CFBundleVersion: minor_version
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%RECIPE_CACHE_DIR%/%NAME%/Microsoft Remote Desktop Beta.app'
+    requirement: identifier "com.microsoft.rdc.osx.beta" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = UBF8T346G9
+
+- Processor: EndOfCheckPhase
+  Arguments:
+    version: '%major_version%.%minor_version%'

@@ -1,6 +1,7 @@
 Description: Creates a package for latest version of Tunnelblick and imports into Munki.
 Identifier: com.github.ggeerraalldd.pkg.Tunnelblick
 ParentRecipe: com.github.ggeerraalldd.download.Tunnelblick
+MinimumVersion: '2.3'
 
 Input:
   NAME: Tunnelblick-pkg

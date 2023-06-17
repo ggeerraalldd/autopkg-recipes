@@ -1,0 +1,24 @@
+Description: Downloads the latest version of Airtable.
+Identifier: com.github.ggeerraalldd.download.Airtable
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Airtable
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.dmg'
+    url: https://static.airtable.com/download/AirtableInstaller.dmg
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/Airtable.app'
+    requirement: identifier "com.FormaGrid.Airtable" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = E22RZMX62E
+
+- Processor: Versioner
+  Arguments:
+    input_plist_path: '%pathname%/Airtable.app/Contents/Info.plist'
+    plist_version_key: CFBundleShortVersionString

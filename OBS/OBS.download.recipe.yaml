@@ -1,0 +1,29 @@
+Comment: Changed download source from sparkle to obsproject.com
+Description: Downloads the latest x86_64 version of OBS Studio.
+Identifier: com.github.ggeerraalldd.download.OBS
+MinimumVersion: '2.3'
+
+Input:
+  SEARCH_URL: https://obsproject.com/download
+  RE_PATTERN: href="(.*?%ARCH%.dmg)"
+  ARCH: x86_64
+  APP_FILENAME: OBS
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '%RE_PATTERN%'
+    result_output_var_name: download_url
+    url: '%SEARCH_URL%'
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%APP_FILENAME%-%ARCH%.dmg'
+    url: '%download_url%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/OBS.app'
+    requirement: identifier "com.obsproject.obs-studio" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "2MMRE5MTB8"

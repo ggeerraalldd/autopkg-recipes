@@ -1,0 +1,22 @@
+Description: Downloads the latest version of Suspicious Package and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.SuspiciousPackage
+ParentRecipe: com.github.ggeerraalldd.download.SuspiciousPackage
+MinimumVersion: '2.3'
+
+Input:
+  NAME: SuspiciousPackage
+  MUNKI_REPO_SUBDIR: apps/%NAME%
+  pkginfo:
+    catalogs:
+    - testing
+    description: Preview contents of installer packages.
+    developer: Mothers Ruin Software
+    display_name: Suspicious Package
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

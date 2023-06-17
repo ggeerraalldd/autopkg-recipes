@@ -1,0 +1,35 @@
+Description: Downloads the latest FileMaker Pro update pkg and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.FileMakerProUpdates
+ParentRecipe: com.github.ggeerraalldd.download.FileMakerProUpdates
+MinimumVersion: '2.3'
+
+Input:
+  NAME: FileMaker_Pro_Updates
+  MUNKI_REPO_SUBDIR: apps/%NAME%
+  MAJOR_VERSION: '20'
+  pkginfo:
+    blocking_applications:
+    - FileMaker Pro.app
+    catalogs:
+    - testing
+    description: Updater for FileMaker Pro
+    developer: Claris
+    display_name: FileMaker Pro Updates
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%dl_version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%RECIPE_CACHE_DIR%/unzipped/FileMaker_Pro_Update.pkg'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/unzipped'

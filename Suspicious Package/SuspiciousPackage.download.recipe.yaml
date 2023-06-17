@@ -1,0 +1,24 @@
+Description: Downloads the latest version of Suspicious Package.
+Identifier: com.github.ggeerraalldd.download.SuspiciousPackage
+MinimumVersion: '2.3'
+
+Input:
+  NAME: SuspiciousPackage
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.dmg'
+    url: https://www.mothersruin.com/software/downloads/SuspiciousPackage.dmg
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/Suspicious Package.app'
+    requirement: anchor apple generic and identifier "com.mothersruin.SuspiciousPackageApp" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "936EB786NH")
+
+- Processor: Versioner
+  Arguments:
+    input_plist_path: '%pathname%/Suspicious Package.app/Contents/Info.plist'
+    plist_version_key: CFBundleShortVersionString

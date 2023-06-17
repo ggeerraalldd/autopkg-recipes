@@ -1,0 +1,30 @@
+Description: Downloads the latest version of OBS Studio iOS Camera Plugin and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.OBSStudioCameraPlugin
+ParentRecipe: com.github.ggeerraalldd.download.OBSStudioCameraPlugin
+MinimumVersion: '2.3'
+
+Input:
+  NAME: CameraForOBSStudio
+  MUNKI_REPO_SUBDIR: apps/CameraForOBSStudio
+  pkginfo:
+    blocking_applications:
+    - OBS
+    catalogs:
+    - testing
+    category: Multimedia
+    description: Broadcast high quality video from your iPhone's camera into OBS Studio
+    developer: Will Townsend
+    display_name: Camera for OBS Studio Plugin
+    name: '%NAME%'
+    unattended_install: false
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

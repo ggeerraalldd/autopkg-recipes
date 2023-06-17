@@ -1,0 +1,25 @@
+Description: Downloads the latest version of Outset4.
+Identifier: com.github.ggeerraalldd.download.Outset4
+MinimumVersion: '2.3'
+
+Input:
+  NAME: outset
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    github_repo: macadmins/outset
+
+- Processor: URLDownloader
+  Arguments:
+    filename: Outset.pkg
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    expected_authority_names:
+    - 'Developer ID Installer: Mac Admins Open Source (T4SK8ZXCXG)'
+    - Developer ID Certification Authority
+    - Apple Root CA
+    input_path: '%pathname%'

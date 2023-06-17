@@ -1,0 +1,32 @@
+Description: Downloads the latest version of DCV Viewer and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.DCVViewer
+ParentRecipe: com.github.ggeerraalldd.download.DCVViewer
+MinimumVersion: '2.3'
+
+Input:
+  NAME: nice-dcv-viewer
+  ARCH: x86_64
+  MUNKI_REPO_SUBDIR: apps/%NAME%
+  pkginfo:
+    catalogs:
+    - testing
+    category: Multimedia
+    developer: NICE
+    display_name: NICE DCV Viewer
+    minimum_os_version: '10.13'
+    name: '%NAME%'
+    supported_architectures:
+    - '%ARCH%'
+    unattended_install: false
+    unattended_uninstall: true
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

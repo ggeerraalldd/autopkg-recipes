@@ -1,0 +1,24 @@
+Description: Downloads the latest version of MaxBulk Mailer.
+Identifier: com.github.ggeerraalldd.download.MaxBulkMailer
+MinimumVersion: '2.3'
+
+Input:
+  NAME: MaxBulk Mailer
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.dmg'
+    url: https://www.maxprog.com/products/MaxBulkMailer.dmg
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: '%pathname%/MaxBulk Mailer.app'
+    requirement: identifier "com.maxprog.maxbulkmailer" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = EXB69K867W
+
+- Processor: Versioner
+  Arguments:
+    input_plist_path: '%pathname%/MaxBulk Mailer.app/Contents/Info.plist'
+    plist_version_key: CFBundleShortVersionString

@@ -1,0 +1,30 @@
+Description: |
+  Downloads Tidal disk image and imports into Munki.
+  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.
+  Set the DOWNLOAD_ARCH override to "x64" for munki to install for Intel, or "arm64" for Apple Silicon.
+Identifier: com.github.ggeerraalldd.munki.Tidal
+ParentRecipe: com.github.ggeerraalldd.download.Tidal
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Tidal
+  ARCH: x86_64
+  DOWNLOAD_ARCH: x64
+  MUNKI_REPO_SUBDIR: apps/Tidal
+  pkginfo:
+    catalogs:
+    - testing
+    category: Entertainment
+    description: TIDAL is the first music service with High Fidelity sound quality, High Definition music videos and Curated Editorial, expertly crafted by music journalists.
+    developer: Aspiro AB
+    display_name: TIDAL
+    name: '%NAME%'
+    supported_architectures:
+    - '%ARCH%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

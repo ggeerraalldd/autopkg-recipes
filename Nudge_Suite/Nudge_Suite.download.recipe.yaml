@@ -1,0 +1,18 @@
+Description: 'Downloads the current release of Nudge-Suite.pkg from Github: https://github.com/macadmins/nudge/releases'
+Identifier: com.github.ggeerraalldd.download.Nudge_Suite
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Nudge_Suite
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    asset_regex: ^Nudge_Suite.*?.pkg$
+    github_repo: macadmins/nudge
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%version%.pkg'
+
+- Processor: EndOfCheckPhase

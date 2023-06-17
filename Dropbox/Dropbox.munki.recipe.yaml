@@ -1,0 +1,56 @@
+Description: |
+  Downloads the latest version of Dropbox and imports it into Munki.
+  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.
+Identifier: com.github.ggeerraalldd.munki.Dropbox
+ParentRecipe: com.github.ggeerraalldd.download.Dropbox
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Dropbox
+  ARCH: x86_64
+  DOWNLOAD_URL: https://www.dropbox.com/download?plat=mac&type=full
+  MUNKI_REPO_SUBDIR: apps/Dropbox
+  pkginfo:
+    catalogs:
+    - testing
+    description: Dropbox is a free service that lets you bring all your photos, docs, and videos anywhere. This means that any file you save to your Dropbox will automatically save to all your computers, phones and even the Dropbox website.
+    developer: Dropbox
+    display_name: Dropbox
+    name: '%NAME%'
+    postinstall_script: |
+      #!/bin/sh
+      # based on Ruby postinstall script by Riley Shott:
+      # https://groups.google.com/group/munki-dev/browse_thread/thread/a2813e7f62535f13/63d127534541f863
+      # modifications:
+      # - always extract the helper tool with each install instead of skipping if it exists
+      # - remove xattr com.apple.quarantine removal, as Munki will have already done this upon
+      #   installation; normal autopkg runs also won't quarantine the download to begin with
+      
+      HELPER_SRC_PATH=/Applications/Dropbox.app/Contents/Resources/DropboxHelperInstaller.tgz
+      HELPER_DST_DIR=/Library/DropboxHelperTools
+      HELPER_DST_PATH="$HELPER_DST_DIR/DropboxHelperInstaller"
+      
+      if [ -e "$HELPER_SRC_PATH" ]; then
+        [ -d "$HELPER_DST_DIR" ] || mkdir "$HELPER_DST_DIR"
+        /usr/bin/tar -C "$HELPER_DST_DIR" -xz -f "$HELPER_SRC_PATH"
+        /usr/sbin/chown root:wheel "$HELPER_DST_PATH" "$HELPER_DST_DIR"
+        /bin/chmod 04511 "$HELPER_DST_PATH"
+      else
+        echo "Expected $HELPER_SRC_PATH, but it was not present in the Dropbox dmg."
+        exit 1
+      fi
+    supported_architectures:
+    - '%ARCH%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      blocking_applications:
+      - /Applications/Dropbox.app/Contents/MacOS/Dropbox
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

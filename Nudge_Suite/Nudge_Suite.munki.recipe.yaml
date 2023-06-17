@@ -1,0 +1,29 @@
+Description: Downloads the latest version of OBS Studio iOS Camera Plugin and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.Nudge_Suite
+ParentRecipe: com.github.ggeerraalldd.download.Nudge_Suite
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Nudge_Suite
+  MUNKI_REPO_SUBDIR: apps/Nudge_Suite
+  pkginfo:
+    catalogs:
+    - testing
+    category: Utilities
+    description: Encourages macOS updates
+    developer: Macadmins
+    display_name: Nudge
+    minimum_os_version: '11.0'
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

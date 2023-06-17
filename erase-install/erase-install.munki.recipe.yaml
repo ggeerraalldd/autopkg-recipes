@@ -1,0 +1,43 @@
+Description: Downloads the latest version of erase-install and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.erase-install
+ParentRecipe: com.github.grahampugh.recipes.download.erase-install
+MinimumVersion: '2.3'
+
+Input:
+  NAME: erase-install
+  MUNKI_REPO_SUBDIR: config/erase-install
+  OS_NAME: Ventura
+  pkginfo:
+    catalogs:
+    - testing
+    category: macOS
+    description: Upgrade to latest version of macOS %OS_NAME% without admin credentials.
+    developer: Macadmins
+    display_name: Upgrade to macOS %OS_NAME%
+    icon_name: Install_macOS_%OS_NAME%.png
+    minimum_os_version: '11.4'
+    name: '%NAME%'
+    postinstall_script: |
+      #!/bin/sh
+      
+      sleep 3
+      /Library/Management/erase-install/erase-install.sh --os=13 --reinstall --check-power --cleanup-after-use"
+    preinstall_alert:
+      alert_detail: |
+        This will download the latest version of macOS Ventura and upgrade your Mac. Please enter your user password when prompted. 
+        
+        ** The installation process will begin immediately! **
+        If you are not ready to install now, please
+        click Cancel and try again later. "
+    unattended_install: true
+
+Process:
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      version: '%version%'
+
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

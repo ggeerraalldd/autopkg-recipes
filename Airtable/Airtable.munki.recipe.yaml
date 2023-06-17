@@ -1,0 +1,22 @@
+Description: Downloads the latest version of Airtable and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.Airtable
+ParentRecipe: com.github.ggeerraalldd.download.Airtable
+MinimumVersion: '2.3'
+
+Input:
+  NAME: Airtable
+  MUNKI_REPO_SUBDIR: apps/%NAME%
+  pkginfo:
+    catalogs:
+    - testing
+    description: Organize stuff, people, and ideas.
+    developer: Formagrid Inc.
+    display_name: Airtable
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'

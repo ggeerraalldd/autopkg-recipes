@@ -1,0 +1,18 @@
+Description: 'Downloads the current release of OBS Studio iOS Camera Plugin release page on Github: https://github.com/wtsnz/obs-ios-camera-source/releases'
+Identifier: com.github.ggeerraalldd.download.OBSStudioCameraPlugin
+MinimumVersion: '2.3'
+
+Input:
+  NAME: CameraForOBSStudio
+
+Process:
+- Processor: GitHubReleasesInfoProvider
+  Arguments:
+    asset_regex: ^obs-ios-camera-source-.*?macos-universal.pkg$
+    github_repo: wtsnz/obs-ios-camera-source
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%version%.pkg'
+
+- Processor: EndOfCheckPhase

@@ -1,0 +1,22 @@
+Description: Downloads the latest version of MaxBulk Mailer and imports it into Munki.
+Identifier: com.github.ggeerraalldd.munki.MaxBulkMailer
+ParentRecipe: com.github.ggeerraalldd.download.MaxBulkMailer
+MinimumVersion: '2.3'
+
+Input:
+  NAME: MaxBulk Mailer
+  MUNKI_REPO_SUBDIR: apps/%NAME%
+  pkginfo:
+    catalogs:
+    - testing
+    description: MaxBulk Mailer is a bulk mailer and e-mailmerge tool for Macintosh and Windows that allows you to send out customized press releases, price lists or any kind of text or HTML messages to your customers.
+    developer: Max Programming, S.L.
+    display_name: MaxBulk Mailer
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
