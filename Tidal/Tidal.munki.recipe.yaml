@@ -14,7 +14,6 @@ Input:
   pkginfo:
     catalogs:
     - testing
-    category: Entertainment
     description: TIDAL is the first music service with High Fidelity sound quality, High Definition music videos and Curated Editorial, expertly crafted by music journalists.
     developer: Aspiro AB
     display_name: TIDAL

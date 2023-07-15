@@ -9,7 +9,6 @@ Input:
   pkginfo:
     catalogs:
     - testing
-    category: Utilities
     description: Automatically process packages, profiles, and scripts during boot, login, or on demand.
     developer: Mac Admins Open Source
     display_name: Outset 4

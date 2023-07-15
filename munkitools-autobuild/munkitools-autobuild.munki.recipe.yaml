@@ -27,7 +27,6 @@ Input:
   NAME: munkitools
   DOWNLOAD_URL: https://mando.sxsw.com/munkitools/munkitools-latest.pkg
   MUNKI_CATALOG: development
-  MUNKI_CATEGORY: munkitools
   MUNKI_DEVELOPER: The Munki Project
   MUNKI_ICON: ''
   MUNKI_REPO_SUBDIR: munkitools
@@ -127,7 +126,6 @@ Process:
     pkginfo:
       catalogs:
       - '%MUNKI_CATALOG%'
-      category: '%MUNKI_CATEGORY%'
       description: '%MUNKITOOLS_CORE_DESCRIPTION%'
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_CORE_DISPLAYNAME%'
@@ -146,7 +144,6 @@ Process:
     pkginfo:
       catalogs:
       - '%MUNKI_CATALOG%'
-      category: '%MUNKI_CATEGORY%'
       description: '%MUNKITOOLS_ADMIN_DESCRIPTION%'
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_ADMIN_DISPLAYNAME%'
@@ -165,7 +162,6 @@ Process:
     pkginfo:
       catalogs:
       - '%MUNKI_CATALOG%'
-      category: '%MUNKI_CATEGORY%'
       description: '%MUNKITOOLS_APP_DESCRIPTION%'
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_APP_DISPLAYNAME%'
@@ -185,7 +181,6 @@ Process:
     pkginfo:
       catalogs:
       - '%MUNKI_CATALOG%'
-      category: '%MUNKI_CATEGORY%'
       description: '%MUNKITOOLS_APP_USAGE_DESCRIPTION%'
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_APP_USAGE_DISPLAYNAME%'
@@ -205,7 +200,6 @@ Process:
     pkginfo:
       catalogs:
       - '%MUNKI_CATALOG%'
-      category: '%MUNKI_CATEGORY%'
       description: '%MUNKITOOLS_LAUNCHD_DESCRIPTION%'
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_LAUNCHD_DISPLAYNAME%'
@@ -220,7 +214,6 @@ Process:
     pkginfo:
       catalogs:
       - '%MUNKI_CATALOG%'
-      category: '%MUNKI_CATEGORY%'
       description: '%MUNKITOOLS_PYTHON_DESCRIPTION%'
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_PYTHON_DISPLAYNAME%'

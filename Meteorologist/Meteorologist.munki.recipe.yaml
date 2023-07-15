@@ -5,14 +5,12 @@ MinimumVersion: '2.3'
 Input:
   NAME: Meteorologist
   MUNKI_REPO_SUBDIR: apps/%NAME%
-  MUNKI_CATEGORY: Utilities
   SOURCEFORGE_FILE_PATTERN: Meteorologist-[0-9_\.]*\.dmg
   SOURCEFORGE_PROJECT_NAME: heat-meteo
   APP_DESTINATION: /Applications
   pkginfo:
     catalogs:
     - testing
-    category: '%MUNKI_CATEGORY%'
     description: Meteorologist is a free weather program for OS X.  It allows users total control over their weather viewing, including simultaneous interlaced weather reports from multiple weather servers, multiple weather locations, weather alerts and much more.
     developer: Edward Danley
     display_name: Meteorologist

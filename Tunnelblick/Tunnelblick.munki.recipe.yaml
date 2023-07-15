@@ -11,7 +11,6 @@ Input:
     - Tunnelblick
     catalogs:
     - testing
-    category: Networking
     description: Tunnelblick is a Mac app that lets you easily connect to OpenVPN.
     developer: The Tunnelblick Project
     display_name: Tunnelblick

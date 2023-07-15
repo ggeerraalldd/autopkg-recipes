@@ -14,7 +14,6 @@ Input:
   pkginfo:
     catalogs:
     - testing
-    category: Multimedia
     description: Free and open source software for live streaming and screen recording
     developer: Wizards of OBS LLC
     display_name: OBS Studio

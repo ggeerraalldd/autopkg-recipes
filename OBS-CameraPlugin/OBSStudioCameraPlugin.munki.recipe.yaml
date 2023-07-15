@@ -11,7 +11,6 @@ Input:
     - OBS
     catalogs:
     - testing
-    category: Multimedia
     description: Broadcast high quality video from your iPhone's camera into OBS Studio
     developer: Will Townsend
     display_name: Camera for OBS Studio Plugin

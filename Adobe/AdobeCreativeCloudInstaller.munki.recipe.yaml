@@ -12,13 +12,11 @@ Input:
   ARCH: x86_64
   VENDOR: Adobe
   NAMEWITHOUTSPACES: CreativeCloudInstaller
-  MUNKI_CATEGORY: Creative Cloud
   MUNKI_DEVELOPER: Adobe
   MUNKI_REPO_SUBDIR: apps/Adobe/Creative Cloud
   pkginfo:
     catalogs:
     - testing
-    category: '%MUNKI_CATEGORY%'
     description: "Adobe Creative Cloud gives you the world's best creative apps and services so you can make anything you can imagine, whereever you're inspired. "
     developer: '%MUNKI_DEVELOPER%'
     display_name: '%NAME%'

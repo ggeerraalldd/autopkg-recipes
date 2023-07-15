@@ -9,7 +9,6 @@ Input:
   pkginfo:
     catalogs:
     - testing
-    category: Utilities
     description: Encourages macOS updates
     developer: Macadmins
     display_name: Nudge

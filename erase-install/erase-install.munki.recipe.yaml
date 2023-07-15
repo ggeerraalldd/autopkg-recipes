@@ -10,7 +10,6 @@ Input:
   pkginfo:
     catalogs:
     - testing
-    category: macOS
     description: Upgrade to latest version of macOS %OS_NAME% without admin credentials.
     developer: Macadmins
     display_name: Upgrade to macOS %OS_NAME%

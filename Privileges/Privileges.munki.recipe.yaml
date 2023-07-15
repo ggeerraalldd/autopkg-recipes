@@ -7,13 +7,11 @@ Input:
   NAME: Privileges
   DESCRIPTION: Privileges.app for macOS is designed to allow users to work as a standard user for day-to-day use, by providing a quick and easy way to get administrator rights when needed. When you do need admin rights, you can get them by clicking on the Privileges icon in your Dock.
   DISPLAYNAME: Privileges
-  MUNKI_CATEGORY: Utilities
   MUNKI_DEVELOPER: SAP
   MUNKI_REPO_SUBDIR: ''
   pkginfo:
     catalogs:
     - testing
-    category: '%MUNKI_CATEGORY%'
     description: '%DESCRIPTION%'
     developer: '%MUNKI_DEVELOPER%'
     display_name: '%DISPLAYNAME%'

@@ -10,7 +10,6 @@ Input:
   pkginfo:
     catalogs:
     - testing
-    category: Multimedia
     developer: NICE
     display_name: NICE DCV Viewer
     minimum_os_version: '10.13'
