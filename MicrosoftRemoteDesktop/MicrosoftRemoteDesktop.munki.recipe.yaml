@@ -1,0 +1,61 @@
+Description: Downloads the latest Microsoft Remote Desktop Client installer and imports into Munki.
+Identifier: com.github.ggeerraalldd.munki.microsoftremotedesktop
+ParentRecipe: com.github.rtrouton.download.microsoftremotedesktop
+MinimumVersion: '2.3'
+
+Input:
+  NAME: MicrosoftRemoteDesktop
+  MUNKI_REPO_SUBDIR: apps/Microsoft/RemoteDesktop
+  pkginfo:
+    catalogs:
+    - testing
+    developer: Microsoft
+    display_name: Microsoft Remote Desktop
+    name: '%NAME%'
+    unattended_install: true
+
+Process:
+- Processor: FlatPkgUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/unpack'
+    flat_pkg_path: '%pathname%'
+    purge_destination: true
+
+- Processor: PkgPayloadUnpacker
+  Arguments:
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications'
+    pkg_payload_path: '%RECIPE_CACHE_DIR%/unpack/com.microsoft.rdc.macos.pkg/Payload'
+    purge_destination: true
+
+- Processor: MunkiInstallsItemsCreator
+  Arguments:
+    faux_root: '%RECIPE_CACHE_DIR%/%NAME%'
+    installs_item_paths:
+    - /Applications/Microsoft Remote Desktop.app
+    version_comparison_key: CFBundleVersion
+
+- Processor: MunkiPkginfoMerger
+
+- Processor: PlistReader
+  Arguments:
+    info_path: '%RECIPE_CACHE_DIR%/%NAME%/Applications/Microsoft Remote Desktop.app/Contents/Info.plist'
+    plist_keys:
+      CFBundleShortVersionString: version
+      LSMinimumSystemVersion: min_os_version
+
+- Processor: MunkiPkginfoMerger
+  Arguments:
+    additional_pkginfo:
+      minimum_os_version: '%min_os_version%'
+      version: '%version%'
+      
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+
+- Processor: PathDeleter
+  Arguments:
+    path_list:
+    - '%RECIPE_CACHE_DIR%/%NAME%'
+    - '%RECIPE_CACHE_DIR%/unpack'

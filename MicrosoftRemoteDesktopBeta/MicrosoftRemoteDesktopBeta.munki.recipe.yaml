@@ -10,7 +10,7 @@ Input:
     catalogs:
     - testing
     description: Connect to Windows machines.
-    developer: Microsoft Corporation
+    developer: Microsoft
     display_name: Microsoft Remote Desktop Beta
     name: '%NAME%'
     unattended_install: true
