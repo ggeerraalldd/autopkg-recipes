@@ -15,8 +15,8 @@ Process:
 
 - Processor: URLTextSearcher
   Arguments:
-    re_pattern: (202\d.\d.\d{4})
-    result_output_var_name: raw_version
+    re_pattern: 'https:.*(202\d.\d.\d{4}).*64\.dmg\">\n\s*macOS\s\(%ARCH%\)'
+    result_output_var_name: url_version
 
 - Processor: URLDownloader
   Arguments:
@@ -25,12 +25,6 @@ Process:
 
 - Processor: EndOfCheckPhase
 
-- Processor: com.github.grahampugh.recipes.commonprocessors/StringReplacer
-  Arguments:
-    input_string: '%raw_version%'
-    replacement_string: .
-    string_to_replace: '-'
-
 - Processor: CodeSignatureVerifier
   Arguments:
     input_path: '%pathname%/DCV Viewer.app'
@@ -38,4 +32,4 @@ Process:
 
 - Processor: EndOfCheckPhase
   Arguments:
-    version: '%output_string%'
+    version: '%url_version%'
