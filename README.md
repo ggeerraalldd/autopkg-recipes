@@ -12,7 +12,6 @@ http://github.com/autopkg/rtrouton-recipes.git
 - Privileges.munki.recipe
 
 http://github.com/autopkg/grahampugh-recipes.git
-- DCVViewer.download.recipe
 - eraseinstall.munki.recipe
 
 http://github.com/autopkg/nstrauss-recipes.git
