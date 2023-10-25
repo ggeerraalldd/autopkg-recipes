@@ -40,7 +40,7 @@ Process:
 - Processor: MunkiPkginfoMerger
   Arguments:
     additional_pkginfo:
-      minimum_os_version: "10.10"
+      minimum_os_version: "10.13"
       version: "%version%"
 
 - Processor: MunkiImporter
