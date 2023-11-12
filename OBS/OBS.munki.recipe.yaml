@@ -1,6 +1,7 @@
 Description: |
   Downloads the latest x86_64 version of OBS Studio and imports it into Munki.
-  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon."
+  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.
+  Set the DL_ARCH override to "Intel" or "Apple" to download for Intel or Apple Silicon.
 Identifier: com.github.ggeerraalldd.munki.OBS
 ParentRecipe: com.github.ggeerraalldd.download.OBS
 MinimumVersion: '2.3'
@@ -9,6 +10,7 @@ Input:
   NAME: OBS
   ARCH: x86_64
   APP_FILENAME: OBS
+  DL_ARCH: Intel
   MUNKI_REPO_SUBDIR: apps/OBS
   STOPPROCESSINGIF_PREDICATE: download_changed == FALSE
   pkginfo:

@@ -5,9 +5,10 @@ MinimumVersion: '2.3'
 
 Input:
   SEARCH_URL: https://obsproject.com/download
-  RE_PATTERN: href="(.*?%ARCH%.dmg)"
+  RE_PATTERN: href="(.*?%DL_ARCH%.dmg)"
   ARCH: x86_64
   APP_FILENAME: OBS
+  DL_ARCH: Intel
 
 Process:
 - Processor: URLTextSearcher
