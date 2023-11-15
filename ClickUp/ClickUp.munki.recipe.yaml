@@ -1,0 +1,28 @@
+Description: |
+    Downloads the latest arm64 release of ClickUp and imports it into Munki.
+    For Intel, change ARCH to x86_64 and DL_URL to https://desktop.clickup.com/mac/dmg
+Identifier: com.github.ggeerraalldd.munki.ClickUp
+ParentRecipe: com.github.ggeerraalldd.download.ClickUp
+MinimumVersion: '2.3'
+
+Input:
+  NAME: ClickUp
+  ARCH: arm64
+  DL_URL: https://desktop.clickup.com/mac/dmg/arm64
+  MUNKI_REPO_SUBDIR: apps/%NAME%
+  pkginfo:
+    catalogs:
+    - testing
+    description: One app to replace them all.
+    developer: Mango Technologies, Inc.
+    display_name: ClickUp
+    name: '%NAME%'
+    supported_architectures:
+    - '%ARCH%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    pkg_path: '%pathname%'
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
