@@ -1,4 +1,4 @@
-Description: Downloads the latest release of ClickUp
+Description: Downloads the latest release of ClickUp.
 Identifier: com.github.ggeerraalldd.download.ClickUp
 MinimumVersion: '2.3'
 
@@ -6,17 +6,17 @@ Input:
   NAME: ClickUp
   
 Process:
-  - Processor: URLDownloader
-    Arguments:
-      filename: "%NAME%.dmg"
-      url: "%DL_URL%"
+- Processor: URLDownloader
+  Arguments:
+    filename: "%NAME%.dmg"
+    url: "%DL_URL%"
 
-  - Processor: EndOfCheckPhase
+- Processor: EndOfCheckPhase
 
-  - Processor: CodeSignatureVerifier
-    Arguments:
-      input_path: "%pathname%/%NAME%.app"
-      requirement:  identifier "com.clickup.desktop-app" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "5RJWFAUGXQ"
+- Processor: CodeSignatureVerifier
+  Arguments:
+    input_path: "%pathname%/%NAME%.app"
+    requirement:  identifier "com.clickup.desktop-app" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "5RJWFAUGXQ"
 
 - Processor: Versioner
   Arguments:
