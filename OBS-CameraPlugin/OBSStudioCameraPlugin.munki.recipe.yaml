@@ -1,10 +1,13 @@
-Description: Downloads the latest version of OBS Studio iOS Camera Plugin and imports it into Munki.
+Description: |
+  Downloads the latest version of OBS Studio iOS Camera Plugin and imports it into Munki.
+  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.
 Identifier: com.github.ggeerraalldd.munki.OBSStudioCameraPlugin
 ParentRecipe: com.github.ggeerraalldd.download.OBSStudioCameraPlugin
 MinimumVersion: '2.3'
 
 Input:
   NAME: CameraForOBSStudio
+  ARCH: arm64  
   MUNKI_REPO_SUBDIR: apps/CameraForOBSStudio
   pkginfo:
     blocking_applications:
@@ -15,6 +18,8 @@ Input:
     developer: Will Townsend
     display_name: Camera for OBS Studio Plugin
     name: '%NAME%'
+    supported_architectures:
+    - '%ARCH%'
     unattended_install: false
 
 Process:

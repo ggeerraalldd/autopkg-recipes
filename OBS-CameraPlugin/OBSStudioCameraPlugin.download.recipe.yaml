@@ -1,4 +1,6 @@
-Description: 'Downloads the current release of OBS Studio iOS Camera Plugin release page on Github: https://github.com/wtsnz/obs-ios-camera-source/releases'
+Description: |
+  Downloads the latest version of OBS Studio iOS Camera Plugin and imports it into Munki.
+  Set the ARCH override to "x86_64" for munki to install for Intel, or "arm64" for Apple Silicon.
 Identifier: com.github.ggeerraalldd.download.OBSStudioCameraPlugin
 MinimumVersion: '2.3'
 
@@ -8,7 +10,7 @@ Input:
 Process:
 - Processor: GitHubReleasesInfoProvider
   Arguments:
-    asset_regex: ^obs-ios-camera-source-.*?macos-universal.pkg$
+    asset_regex: ^obs-ios-camera-source-.*?macos-%ARCH%.pkg$
     github_repo: wtsnz/obs-ios-camera-source
 
 - Processor: URLDownloader
