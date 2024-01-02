@@ -1,4 +1,4 @@
-Description: Downloads the latest version of OBS Studio iOS Camera Plugin and imports it into Munki.
+Description: Downloads the current release of Nudge-Suite.pkg and imports it into Munki
 Identifier: com.github.ggeerraalldd.munki.Nudge_Suite
 ParentRecipe: com.github.ggeerraalldd.download.Nudge_Suite
 MinimumVersion: '2.3'
