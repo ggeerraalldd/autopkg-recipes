@@ -8,7 +8,7 @@ MinimumVersion: '2.3'
 Input:
   NAME: Dropbox
   ARCH: x86_64
-  DOWNLOAD_URL: https://www.dropbox.com/download?plat=mac&type=full
+  DOWNLOAD_URL: https://www.dropbox.com/download?plat=mac&type=full&build=stable
   MUNKI_REPO_SUBDIR: apps/Dropbox
   pkginfo:
     catalogs:
