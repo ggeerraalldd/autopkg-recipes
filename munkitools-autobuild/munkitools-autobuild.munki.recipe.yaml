@@ -5,14 +5,7 @@ Description: |
   
   Downloads and imports a pre-built Munki pkg from your own server.
   DOWNLOAD_URL can be overridden to an alternate URL or an alternate package version, 
-  ie. https://your.server.com/path/to/munkitools-5.7.3.4444.pkg
-  
-  Note that Munki 6 includes an optional component pkg, munkitools_app_usage.
-  This recipe imports this to the Munki with the appropriate 'requires' key,
-  however as it is considered an optional component, this recipe does not
-  add it as an update_for any Munki component. Admins should add
-  munkitools_app_usage to a manifest manually if its installation on clients
-  is desired.
+  ie. https://your.server.com/path/to/munkitools-6.6.0.4690.pkg
   
   The GitHubReleasesInfoProvider processor used by this recipe also
   respects an input variable: 'sort_by_highest_tag_names', which
@@ -130,7 +123,7 @@ Process:
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_CORE_DISPLAYNAME%'
       icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.11'
+      minimum_os_version: '10.13'
       name: '%MUNKITOOLS_CORE_NAME%'
       requires:
       - '%MUNKITOOLS_PYTHON_NAME%'
@@ -148,7 +141,7 @@ Process:
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_ADMIN_DISPLAYNAME%'
       icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.11'
+      minimum_os_version: '10.13'
       name: '%MUNKITOOLS_ADMIN_NAME%'
       unattended_install: true
       update_for:
@@ -166,7 +159,7 @@ Process:
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_APP_DISPLAYNAME%'
       icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.11'
+      minimum_os_version: '10.13'
       name: '%MUNKITOOLS_APP_NAME%'
       requires:
       - '%MUNKITOOLS_PYTHON_NAME%'
@@ -185,7 +178,7 @@ Process:
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_APP_USAGE_DISPLAYNAME%'
       icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.11'
+      minimum_os_version: '10.13'
       name: '%MUNKITOOLS_APP_USAGE_NAME%'
       requires:
       - '%MUNKITOOLS_PYTHON_NAME%'
@@ -204,8 +197,9 @@ Process:
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_LAUNCHD_DISPLAYNAME%'
       icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.11'
+      minimum_os_version: '10.13'
       name: '%MUNKITOOLS_LAUNCHD_NAME%'
+      unattended_install: true
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
 
 - Processor: MunkiImporter
@@ -218,7 +212,7 @@ Process:
       developer: '%MUNKI_DEVELOPER%'
       display_name: '%MUNKITOOLS_PYTHON_DISPLAYNAME%'
       icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.11'
+      minimum_os_version: '10.13'
       name: '%MUNKITOOLS_PYTHON_NAME%'
       unattended_install: true
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
