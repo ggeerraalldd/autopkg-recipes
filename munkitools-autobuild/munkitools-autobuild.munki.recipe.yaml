@@ -14,34 +14,22 @@ Description: |
   
   MUNKI_ICON should be overridden with your icon name.
 Identifier: com.github.ggeerraalldd.munkitools-autobuild
-MinimumVersion: '2.3'
-
 Input:
   NAME: munkitools
   DOWNLOAD_URL: https://mando.sxsw.com/munkitools/munkitools-latest.pkg
-  MUNKI_CATALOG: development
-  MUNKI_DEVELOPER: The Munki Project
-  MUNKI_ICON: ''
   MUNKI_REPO_SUBDIR: munkitools
-  MUNKITOOLS_CORE_NAME: munkitools_core
-  MUNKITOOLS_CORE_DISPLAYNAME: Managed Software Center core tools
-  MUNKITOOLS_CORE_DESCRIPTION: Core command-line tools used by Managed Software Center.
-  MUNKITOOLS_ADMIN_NAME: munkitools_admin
-  MUNKITOOLS_ADMIN_DISPLAYNAME: Managed Software Center admin tools
-  MUNKITOOLS_ADMIN_DESCRIPTION: Command-line Managed Software Center admin tools.
-  MUNKITOOLS_APP_NAME: munkitools
-  MUNKITOOLS_APP_DISPLAYNAME: Managed Software Center
-  MUNKITOOLS_APP_DESCRIPTION: Managed Software Center application.
-  MUNKITOOLS_APP_USAGE_NAME: munkitools_app_usage
-  MUNKITOOLS_APP_USAGE_DISPLAYNAME: Managed Software Center app usage
-  MUNKITOOLS_APP_USAGE_DESCRIPTION: Application usage statistics for Managed Software Center.
-  MUNKITOOLS_LAUNCHD_NAME: munkitools_launchd
-  MUNKITOOLS_LAUNCHD_DISPLAYNAME: Managed Software Center launchd files
-  MUNKITOOLS_LAUNCHD_DESCRIPTION: launchd configuration files for use by Managed Software Center.
-  MUNKITOOLS_PYTHON_NAME: munkitools_python
-  MUNKITOOLS_PYTHON_DISPLAYNAME: Managed Software Center embedded python
-  MUNKITOOLS_PYTHON_DESCRIPTION: Embedded Python tools used by Managed Software Center.
-
+  pkginfo:
+    catalogs:
+    - development
+    category: munkitools
+    description: Managed software installation for macOS.
+    developer: The Munki Project
+    display_name: SXSW App Store
+    icon_name: sxas.png
+    minimum_os_version: '10.13'
+    name: '%NAME%'
+    unattended_install: true
+MinimumVersion: '2.3'
 Process:
 - Processor: URLDownloader
   Arguments:
@@ -49,170 +37,7 @@ Process:
 
 - Processor: EndOfCheckPhase
 
-- Processor: FlatPkgUnpacker
-  Arguments:
-    destination_path: '%RECIPE_CACHE_DIR%/unpack'
-    flat_pkg_path: '%pathname%'
-
-- Processor: PkgRootCreator
-  Arguments:
-    pkgdirs: {}
-    pkgroot: '%RECIPE_CACHE_DIR%/repack'
-
-- Processor: FileFinder
-  Arguments:
-    pattern: '%RECIPE_CACHE_DIR%/unpack/munkitools_core*.pkg'
-
-- Processor: FlatPkgPacker
-  Arguments:
-    destination_pkg: '%RECIPE_CACHE_DIR%/repack/munkitools_core.pkg'
-    source_flatpkg_dir: '%found_filename%'
-
-- Processor: FileFinder
-  Arguments:
-    pattern: '%RECIPE_CACHE_DIR%/unpack/munkitools_admin*.pkg'
-
-- Processor: FlatPkgPacker
-  Arguments:
-    destination_pkg: '%RECIPE_CACHE_DIR%/repack/munkitools_admin.pkg'
-    source_flatpkg_dir: '%found_filename%'
-
-- Processor: FileFinder
-  Arguments:
-    pattern: '%RECIPE_CACHE_DIR%/unpack/munkitools_app[.-]*pkg'
-
-- Processor: FlatPkgPacker
-  Arguments:
-    destination_pkg: '%RECIPE_CACHE_DIR%/repack/munkitools_app.pkg'
-    source_flatpkg_dir: '%found_filename%'
-
-- Processor: FileFinder
-  Arguments:
-    pattern: '%RECIPE_CACHE_DIR%/unpack/munkitools_app_usage*.pkg'
-
-- Processor: FlatPkgPacker
-  Arguments:
-    destination_pkg: '%RECIPE_CACHE_DIR%/repack/munkitools_app_usage.pkg'
-    source_flatpkg_dir: '%found_filename%'
-
-- Processor: FileFinder
-  Arguments:
-    pattern: '%RECIPE_CACHE_DIR%/unpack/munkitools_launchd*.pkg'
-
-- Processor: FlatPkgPacker
-  Arguments:
-    destination_pkg: '%RECIPE_CACHE_DIR%/repack/munkitools_launchd.pkg'
-    source_flatpkg_dir: '%found_filename%'
-
-- Processor: FileFinder
-  Arguments:
-    pattern: '%RECIPE_CACHE_DIR%/unpack/munkitools_python*.pkg'
-
-- Processor: FlatPkgPacker
-  Arguments:
-    destination_pkg: '%RECIPE_CACHE_DIR%/repack/munkitools_python.pkg'
-    source_flatpkg_dir: '%found_filename%'
-
 - Processor: MunkiImporter
   Arguments:
-    pkg_path: '%RECIPE_CACHE_DIR%/repack/munkitools_core.pkg'
-    pkginfo:
-      catalogs:
-      - '%MUNKI_CATALOG%'
-      description: '%MUNKITOOLS_CORE_DESCRIPTION%'
-      developer: '%MUNKI_DEVELOPER%'
-      display_name: '%MUNKITOOLS_CORE_DISPLAYNAME%'
-      icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.13'
-      name: '%MUNKITOOLS_CORE_NAME%'
-      requires:
-      - '%MUNKITOOLS_PYTHON_NAME%'
-      - '%MUNKITOOLS_LAUNCHD_NAME%'
-      unattended_install: true
-    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-
-- Processor: MunkiImporter
-  Arguments:
-    pkg_path: '%RECIPE_CACHE_DIR%/repack/munkitools_admin.pkg'
-    pkginfo:
-      catalogs:
-      - '%MUNKI_CATALOG%'
-      description: '%MUNKITOOLS_ADMIN_DESCRIPTION%'
-      developer: '%MUNKI_DEVELOPER%'
-      display_name: '%MUNKITOOLS_ADMIN_DISPLAYNAME%'
-      icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.13'
-      name: '%MUNKITOOLS_ADMIN_NAME%'
-      unattended_install: true
-      update_for:
-      - '%MUNKITOOLS_PYTHON_NAME%'
-      - '%MUNKITOOLS_CORE_NAME%'
-    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-
-- Processor: MunkiImporter
-  Arguments:
-    pkg_path: '%RECIPE_CACHE_DIR%/repack/munkitools_app.pkg'
-    pkginfo:
-      catalogs:
-      - '%MUNKI_CATALOG%'
-      description: '%MUNKITOOLS_APP_DESCRIPTION%'
-      developer: '%MUNKI_DEVELOPER%'
-      display_name: '%MUNKITOOLS_APP_DISPLAYNAME%'
-      icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.13'
-      name: '%MUNKITOOLS_APP_NAME%'
-      requires:
-      - '%MUNKITOOLS_PYTHON_NAME%'
-      - '%MUNKITOOLS_CORE_NAME%'
-      - '%MUNKITOOLS_LAUNCHD_NAME%'
-      unattended_install: true
-    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-
-- Processor: MunkiImporter
-  Arguments:
-    pkg_path: '%RECIPE_CACHE_DIR%/repack/munkitools_app_usage.pkg'
-    pkginfo:
-      catalogs:
-      - '%MUNKI_CATALOG%'
-      description: '%MUNKITOOLS_APP_USAGE_DESCRIPTION%'
-      developer: '%MUNKI_DEVELOPER%'
-      display_name: '%MUNKITOOLS_APP_USAGE_DISPLAYNAME%'
-      icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.13'
-      name: '%MUNKITOOLS_APP_USAGE_NAME%'
-      requires:
-      - '%MUNKITOOLS_PYTHON_NAME%'
-      - '%MUNKITOOLS_CORE_NAME%'
-      - '%MUNKITOOLS_LAUNCHD_NAME%'
-      unattended_install: true
-    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-
-- Processor: MunkiImporter
-  Arguments:
-    pkg_path: '%RECIPE_CACHE_DIR%/repack/munkitools_launchd.pkg'
-    pkginfo:
-      catalogs:
-      - '%MUNKI_CATALOG%'
-      description: '%MUNKITOOLS_LAUNCHD_DESCRIPTION%'
-      developer: '%MUNKI_DEVELOPER%'
-      display_name: '%MUNKITOOLS_LAUNCHD_DISPLAYNAME%'
-      icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.13'
-      name: '%MUNKITOOLS_LAUNCHD_NAME%'
-      unattended_install: true
-    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-
-- Processor: MunkiImporter
-  Arguments:
-    pkg_path: '%RECIPE_CACHE_DIR%/repack/munkitools_python.pkg'
-    pkginfo:
-      catalogs:
-      - '%MUNKI_CATALOG%'
-      description: '%MUNKITOOLS_PYTHON_DESCRIPTION%'
-      developer: '%MUNKI_DEVELOPER%'
-      display_name: '%MUNKITOOLS_PYTHON_DISPLAYNAME%'
-      icon_name: '%MUNKI_ICON%'
-      minimum_os_version: '10.13'
-      name: '%MUNKITOOLS_PYTHON_NAME%'
-      unattended_install: true
+    pkg_path: '%pathname%'
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
