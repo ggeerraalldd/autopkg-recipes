@@ -5,7 +5,7 @@ Description: |
   
   Downloads and imports a pre-built Munki pkg from your own server.
   DOWNLOAD_URL can be overridden to an alternate URL or an alternate package version, 
-  ie. https://your.server.com/path/to/munkitools-6.6.0.4690.pkg
+  ie. https://your.server.com/path/to/munkitools.pkg
   
   The GitHubReleasesInfoProvider processor used by this recipe also
   respects an input variable: 'sort_by_highest_tag_names', which
@@ -16,16 +16,17 @@ Description: |
 Identifier: com.github.ggeerraalldd.munkitools-autobuild
 Input:
   NAME: munkitools
-  DOWNLOAD_URL: https://mando.sxsw.com/munkitools/munkitools-latest.pkg
+  DOWNLOAD_URL: https://your.server.com/path/to/munkitools.pkg
   MUNKI_REPO_SUBDIR: munkitools
+  MUNKI_ICON: Managed Software Center.png
   pkginfo:
     catalogs:
     - development
     category: munkitools
     description: Managed software installation for macOS.
     developer: The Munki Project
-    display_name: SXSW App Store
-    icon_name: sxas.png
+    display_name: Managed Software Center
+    icon_name: '%MUNKI_ICON%'
     minimum_os_version: '10.13'
     name: '%NAME%'
     unattended_install: true
