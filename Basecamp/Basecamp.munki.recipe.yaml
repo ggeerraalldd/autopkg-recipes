@@ -1,0 +1,31 @@
+Description: |
+    Imports Basecamp app into Munki.
+    Set the ARCH override to "arm64" for munki to install for Apple Silicon, or "x86_64" for Intel.
+    Set the DL_ARCH override to "_arm64" to download for Apple Silicon, or leave empty for Intel.
+Identifier: com.github.ggeerraalldd.munki.Basecamp
+ParentRecipe: com.github.ggeerraalldd.download.Basecamp
+MinimumVersion: '2.3'
+
+Input:
+  ARCH: arm64
+  DL_ARCH: _arm64
+  MUNKI_CATEGORY: Social
+  MUNKI_REPO_SUBDIR: apps/Basecamp
+  NAME: Basecamp
+  pkginfo:
+    catalogs:
+    - testing
+    category: '%MUNKI_CATEGORY%'
+    description: "When it's time to roll up your sleeves and get to work, Basecamp is right there alongside the apps you use every day on Mac."
+    developer: 37signals
+    display_name: Basecamp
+    name: '%NAME%'
+    supported_architectures:
+    - '%ARCH%'
+    unattended_install: true
+
+Process:
+- Processor: MunkiImporter
+  Arguments:
+    repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+    pkg_path: '%pathname%'
