@@ -16,13 +16,28 @@ Process:
 
   - Processor: URLTextSearcher
     Arguments:
-      re_pattern: <a.*href="(?P<download_url>.*[.]pkg)" download>Accept<\/a>
+      re_pattern: <a.*href="(?P<download_url>.*[.]zip)" download>Accept<\/a>
       url: '%BASE_URL%%match%'
 
   - Processor: URLDownloader
     Arguments:
-      filename: '%SOFTWARE_TITLE%.pkg'
+      filename: '%SOFTWARE_TITLE%.zip'
       url: '%BASE_URL%%download_url%'
+
+  - Processor: Unarchiver
+    Arguments:
+      archive_path: '%pathname%'
+      destination_path: '%RECIPE_CACHE_DIR%/unzip'
+      purge_destination: true
+
+  - Processor: PkgCopier
+    Arguments:
+      source_pkg: '%RECIPE_CACHE_DIR%/unzip/DisplayLink*.pkg'
+      pkg_path: '%RECIPE_CACHE_DIR%/unzip/%SOFTWARE_TITLE%.pkg'
+
+  - Processor: FileFinder
+    Arguments:
+      pattern: '%RECIPE_CACHE_DIR%/unzip/%SOFTWARE_TITLE%.pkg'
 
   - Processor: EndOfCheckPhase
 
@@ -32,4 +47,4 @@ Process:
         - 'Developer ID Installer: DisplayLink Corp (73YQY62QM3)'
         - Developer ID Certification Authority
         - Apple Root CA
-      input_path: '%pathname%'
+      input_path: '%found_filename%'
