@@ -7,7 +7,7 @@ Input:
 
 Process:
 - Arguments:
-    appcast_url: https://update.test.omnigroup.com/appcast/com.omnigroup.OmniDiskSweeper/0?OSU=2009
+    appcast_url: https://update.omnigroup.com/appcast/com.omnigroup.OmniDiskSweeper/0?OSU=2009
   Processor: SparkleUpdateInfoProvider
 
 - Arguments:
