@@ -1,0 +1,41 @@
+Description: Downloads the latest txz archive of OmniDiskSweeper.
+Identifier: com.github.ggeerraalldd.download.OmniDiskSweeper-RSS
+MinimumVersion: '2.3'
+
+Input:
+  NAME: OmniDiskSweeper
+
+Process:
+- Arguments:
+    appcast_url: https://update.test.omnigroup.com/appcast/com.omnigroup.OmniDiskSweeper/0?OSU=2009
+  Processor: SparkleUpdateInfoProvider
+
+- Arguments:
+    input_string: '%url%'
+    find: '.dmg'
+    replace: '.txz'
+  Processor: com.github.homebysix.FindAndReplace/FindAndReplace
+  
+- Arguments:
+    url: '%output_string%'
+  Processor: URLDownloader
+
+- Processor: EndOfCheckPhase
+
+- Processor: com.github.jgstew.SharedProcessors/StopProcessingIfDownloadUnchanged
+
+- Arguments:
+    archive_format: 'tar'
+    archive_path: '%pathname%'
+    destination_path: '%RECIPE_CACHE_DIR%/%NAME%'
+    purge_destination: true
+  Processor: Unarchiver
+
+- Arguments:
+    input_path: '%RECIPE_CACHE_DIR%/%NAME%/OmniDiskSweeper.app'
+    requirement: identifier "com.omnigroup.OmniDiskSweeper" and anchor apple generic
+      and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate
+      leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU]
+      = "34YW5XSRB7"
+    strict_verification: true
+  Processor: CodeSignatureVerifier
