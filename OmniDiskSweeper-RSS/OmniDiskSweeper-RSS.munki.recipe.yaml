@@ -1,5 +1,5 @@
 Description: Downloads the latest version of OmniDiskSweeper and imports it into Munki.
-Identifier: com.github.ggeerraalldd.munki.OmniDiskSweeper
+Identifier: com.github.ggeerraalldd.munki.OmniDiskSweeper-RSS
 MinimumVersion: '2.3'
 ParentRecipe: com.github.ggeerraalldd.download.OmniDiskSweeper-RSS
 
