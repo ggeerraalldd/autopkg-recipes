@@ -27,7 +27,7 @@ Input:
     developer: The Munki Project
     display_name: Managed Software Center
     icon_name: '%MUNKI_ICON%'
-    minimum_os_version: '10.13'
+    minimum_os_version: '10.15'
     name: '%NAME%'
     unattended_install: true
 MinimumVersion: '2.3'
@@ -42,3 +42,8 @@ Process:
   Arguments:
     pkg_path: '%pathname%'
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+    
+- Processor: MunkiOptionalReceiptEditor
+  Arguments:
+    pkg_ids_set_optional_true:
+    - com.googlecode.munki.libs
