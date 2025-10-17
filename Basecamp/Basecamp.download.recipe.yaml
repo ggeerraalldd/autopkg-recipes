@@ -3,8 +3,7 @@ Identifier: com.github.ggeerraalldd.download.Basecamp
 MinimumVersion: '2.3'
 
 Input:
-  DOWNLOAD_URL: 'https://bc3-desktop.s3.amazonaws.com/mac%DL_ARCH%/basecamp3%DL_ARCH%.dmg'
-
+  DOWNLOAD_URL: 'https://basecamp.com/desktop/mac%DL_ARCH%/basecamp3%DL_ARCH%.dmg'
 Process:
 - Processor: URLDownloader
   Arguments:
